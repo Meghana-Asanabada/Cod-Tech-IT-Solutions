@@ -1,0 +1,50 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class TicTacToe {
+    // Game board represented as a 2D array
+    private static char[][] board = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+    // Current player ('X' or 'O')
+    private static char currentPlayer;
+    // Flag indicating whether the second player is a computer
+    private static boolean isComputerPlayer;
+
+    public static void main(String[] args) {
+        // Scanner for user input
+        Scanner scanner = new Scanner(System.in);
+
+        // Welcome message
+        System.out.println("Welcome to Tic-Tac-Toe!");
+
+        // Determine if the second player is a computer
+        System.out.print("Do you want to play against the computer? (yes/no): ");
+        String response = scanner.nextLine().toLowerCase();
+        isComputerPlayer = response.equals("yes");
+
+        // Set starting player
+        currentPlayer = 'X';
+
+        // Main game loop
+        while (true) {
+            printBoard();
+
+            // Make a move based on the player type
+            if (isComputerPlayer && currentPlayer == 'O') {
+                makeComputerMove();
+            } else {
+                makeHumanMove(scanner);
+            }
+
+            // Check for a winner or a draw
+            if (checkWinner()) {
+                printBoard();
+                System.out.println("Player " + currentPlayer + " wins!");
+                break;
+            } else if (isBoardFull()) {
+                printBoard();
+                System.out.println("It's a draw!");
+                break;
+            } else {
+                // Switch to the other player for the next turn
+                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+            }
